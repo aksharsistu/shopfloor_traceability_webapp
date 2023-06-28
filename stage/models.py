@@ -16,4 +16,4 @@ class StageData(models.Model):
 class Stages(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
     line_code = models.ForeignKey(StageData, on_delete=models.CASCADE)
-    stage = models.CharField(max_length=5, choices=CHOICES, default="end")
+    place = models.CharField(max_length=5, choices=CHOICES, default="end")
