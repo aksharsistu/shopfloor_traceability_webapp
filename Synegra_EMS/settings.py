@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'corsheaders',
+    'place.apps.PlaceConfig',
     'barcode.apps.BarcodeConfig',
     'stage.apps.StageConfig',
     'list.apps.ListConfig',

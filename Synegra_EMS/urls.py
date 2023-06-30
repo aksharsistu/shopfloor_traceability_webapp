@@ -23,4 +23,5 @@ urlpatterns = [
     path('session/', include('session.urls')),
     path('barcode/', include('barcode.urls')),
     path('stage/', include('stage.urls')),
+    path('place/', include('place.urls'))
 ]

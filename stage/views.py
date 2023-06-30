@@ -40,3 +40,11 @@ def get_stage_data(request):
     for e in Stages.objects.all():
         stage_list.append({"stage": e.line_code.line_code, "ip": e.ip, "place": e.place})
     return JsonResponse(stage_list, safe=False)
+
+
+def get_stage_list(request):
+    stage_list = []
+    for e in StageData.objects.all():
+        stage_list.append(str(e.line_code))
+    return HttpResponse(stage_list)
+        
