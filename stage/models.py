@@ -4,7 +4,9 @@ from django.db import models
 
 CHOICES = (
     ("start", "start"),
-    ("end", "end")
+    ("end", "end"),
+    ("qa", "qa"),
+    ("rework", "rework")
 )
 
 
@@ -16,4 +18,4 @@ class StageData(models.Model):
 class Stages(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
     line_code = models.ForeignKey(StageData, on_delete=models.CASCADE)
-    place = models.CharField(max_length=5, choices=CHOICES, default="end")
+    place = models.CharField(max_length=10, choices=CHOICES, default="end")

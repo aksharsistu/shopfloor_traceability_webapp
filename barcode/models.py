@@ -1,5 +1,5 @@
 from django.db import models
-
+from stage.models import CHOICES
 from list.models import Products
 from session.models import UserData
 from stage.models import StageData
@@ -29,5 +29,6 @@ class Trace(models.Model):
     username = models.ForeignKey(UserData, on_delete=models.CASCADE)
     time = models.DateTimeField()
     stage = models.ForeignKey(StageData, on_delete=models.CASCADE)
+    place = models.CharField(max_length=10, choices=CHOICES)
     description = models.CharField(max_length=13)
 
