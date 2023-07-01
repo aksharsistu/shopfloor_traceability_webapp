@@ -44,6 +44,9 @@ def register(request):
 
 def delete(request):
     data = json.loads(request.body)
-    q = UserData.objects.get(username__exact=data['username'])
-    q.delete()
-    return HttpResponse('success')
+    try:
+        q = UserData.objects.get(username__exact=data['username'])
+        q.delete()
+        return HttpResponse('success')
+    except UserData.DoesNotExist:
+        return HttpResponse('User does not exist')

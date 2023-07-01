@@ -46,7 +46,12 @@ def delete_product(request):
 def get_product(request):
     products = []
     for e in Products.objects.all():
-        pid = Processes.objects.get(process__exact=str(e.process.process)).pid
-        data = {"productName": str(e.product_name), "processName": str(e.process.process), "processId": str(pid), "fgCode": str(e.fg_code), "productCode": str(e.product_code)}
+        try:
+            pid = Processes.objects.get(process__exact=str(e.process.process)).pid
+            data = {"productName": str(e.product_name), "processName": str(e.process.process), "processId": str(pid),
+                    "fgCode": str(e.fg_code), "productCode": str(e.product_code)}
+        except Processes.DoesNotExist:
+            data = {"productName": "Error", "processName": "Error", "processId": "Error", "fgCode": "Error", "productCode": "Error"}
+
         products.append(data)
     return JsonResponse(products, safe=False)
