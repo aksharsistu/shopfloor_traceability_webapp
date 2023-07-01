@@ -46,5 +46,5 @@ def get_stage_list(request):
     stage_list = []
     for e in StageData.objects.all():
         stage_list.append(str(e.line_code))
-    return HttpResponse(stage_list)
+    return JsonResponse(stage_list, safe=False)
         
