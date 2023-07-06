@@ -3,11 +3,17 @@ import json
 from django.http import HttpResponse, JsonResponse
 
 from list.models import Products, Processes
+from stage.models import Quantity
+
+
 # Create your views here
 
 
 def set_process(request):
     data = json.loads(request.body)
+    # Delete any previous processes with similar name:
+    delete_process(request)
+
     q = Processes(process=data['processName'], pid=data['processId'])
     q.save()
     return HttpResponse('success')
@@ -29,10 +35,16 @@ def get_process(request):
 
 def set_product(request):
     data = json.loads(request.body)
-    print(data['processName'])
+    # Delete any previous product of similar name:
+    delete_product(request)
+
     q = Products(product_name=data['productName'], process_id=data['processName'],
                  product_code=data['productCode'], fg_code=data['fgCode'])
     q.save()
+    for stage in Processes.objects.get(process=data['processName']).pid.split('-'):
+        e = Quantity(product_name_id=data['productName'], line_code_id=stage, max_quantity=data['maxQuantity'], current_quantity=0, start_sno=data['startSno'], end_sno=data['endSno'])
+        e.save()
+
     return HttpResponse('success')
 
 

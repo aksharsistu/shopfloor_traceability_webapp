@@ -7,5 +7,6 @@ urlpatterns = [
     path('set/', views.set_stage),
     path('delete/', views.delete_stage),
     path('stagedata/', views.get_stage_data),
-    path('stagelist/', views.get_stage_list)
+    path('stagelist/', views.get_stage_list),
+    path('quantity/', views.get_quantity)
 ]
