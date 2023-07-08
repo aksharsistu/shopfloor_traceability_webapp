@@ -12,7 +12,10 @@ from stage.models import Quantity
 def set_process(request):
     data = json.loads(request.body)
     # Delete any previous processes with similar name:
-    delete_process(request)
+    try:
+        delete_process(request)
+    except Processes.DoesNotExist:
+        print('no previous data to delete')
 
     q = Processes(process=data['processName'], pid=data['processId'])
     q.save()
@@ -29,6 +32,8 @@ def delete_process(request):
 def get_process(request):
     processes = []
     for e in Processes.objects.all():
+        if not e:
+            return JsonResponse([{"processName": "", "processId": ""}], safe=False)
         processes.append({"processName": str(e.process), "processId": str(e.pid)})
     return JsonResponse(processes, safe=False)
 
@@ -36,7 +41,10 @@ def get_process(request):
 def set_product(request):
     data = json.loads(request.body)
     # Delete any previous product of similar name:
-    delete_product(request)
+    try:
+        delete_product(request)
+    except Products.DoesNotExist:
+        print('no previous product to delete')
 
     q = Products(product_name=data['productName'], process_id=data['processName'],
                  product_code=data['productCode'], fg_code=data['fgCode'])
@@ -58,6 +66,8 @@ def delete_product(request):
 def get_product(request):
     products = []
     for e in Products.objects.all():
+        if not e:
+            JsonResponse([{"productName": "Error", "processName": "Error", "processId": "Error", "fgCode": "Error", "productCode": "Error"}])
         try:
             pid = Processes.objects.get(process__exact=str(e.process.process)).pid
             data = {"productName": str(e.product_name), "processName": str(e.process.process), "processId": str(pid),
