@@ -1,5 +1,6 @@
 from django.db import models
 
+from list.models import Processes
 from stage.models import CHOICES, StageData
 
 
@@ -7,6 +8,7 @@ from stage.models import CHOICES, StageData
 
 
 class PlaceData(models.Model):
+    process = models.ForeignKey(Processes, on_delete=models.CASCADE)
     stage = models.OneToOneField(StageData, on_delete=models.CASCADE)
     start = models.BooleanField(default=False)
     end = models.BooleanField(default=False)

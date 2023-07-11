@@ -12,10 +12,7 @@ from stage.models import Quantity
 def set_process(request):
     data = json.loads(request.body)
     # Delete any previous processes with similar name:
-    try:
-        delete_process(request)
-    except Processes.DoesNotExist:
-        print('no previous data to delete')
+    delete_process(request)
 
     q = Processes(process=data['processName'], pid=data['processId'])
     q.save()
@@ -24,8 +21,11 @@ def set_process(request):
 
 def delete_process(request):
     data = json.loads(request.body)
-    e = Processes.objects.get(process__exact=data['processName'])
-    e.delete()
+    try:
+        e = Processes.objects.get(process__exact=data['processName'])
+        e.delete()
+    except Processes.DoesNotExist:
+        print('no previous data to delete')
     return HttpResponse('success')
 
 
@@ -41,10 +41,7 @@ def get_process(request):
 def set_product(request):
     data = json.loads(request.body)
     # Delete any previous product of similar name:
-    try:
-        delete_product(request)
-    except Products.DoesNotExist:
-        print('no previous product to delete')
+    delete_product(request)
 
     q = Products(product_name=data['productName'], process_id=data['processName'],
                  product_code=data['productCode'], fg_code=data['fgCode'])
@@ -58,8 +55,11 @@ def set_product(request):
 
 def delete_product(request):
     data = json.loads(request.body)
-    e = Products.objects.get(product_name__exact=data['productName'])
-    e.delete()
+    try:
+        e = Products.objects.get(product_name__exact=data['productName'])
+        e.delete()
+    except Products.DoesNotExist:
+        print('no previous data')
     return HttpResponse('success')
 
 
